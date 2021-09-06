@@ -1,2 +1,6 @@
 aws/logs/
+aws/vmlist.txt
+aws/__pycache__
 azure/logs/
+azure/vmlist.txt
+azure/__pycache__
