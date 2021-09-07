@@ -1,5 +1,5 @@
 try {
-  Get-Datedf
+  Get-Date
 }
 catch {
   throw $_.Exception.Message
