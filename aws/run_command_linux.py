@@ -2,7 +2,7 @@ import time
 
 from logger import log_checker
 
-def invoke_linux(instance_list, sh_script, script, ec2, ssm, instances):
+def invoke_linux(sh_script, script, ec2, ssm, instances):
     """
     1. Iterate over vmlist.txt or instances based on tag
     2. Ensure they report to SSM
@@ -17,41 +17,38 @@ def invoke_linux(instance_list, sh_script, script, ec2, ssm, instances):
     print ('----')
 
     for instance in instances:
-        if instance.tags is not None:
-            for tag in instance.tags:
-                if 'TagKey' in tag['Key'] and 'TagValue' in tag['Value']:
+        try:
+            try:
+                # Get the instance SSM status
+                status = ssm.describe_instance_associations_status(InstanceId=instance.id)['InstanceAssociationStatusInfos'][0]['Status']
+            except IndexError:
+                status = "Not enrolled"
+
+            if (instance.state['Name'] == "running" and status == "Success"):
+                if instance.platform is None:
+                    print ('Linux: ' + instance.id)
                     try:
-                        try:
-                            # Get the instance SSM status
-                            status = ssm.describe_instance_associations_status(InstanceId=instance.id)['InstanceAssociationStatusInfos'][0]['Status']
-                        except IndexError:
-                            status = "Not enrolled"
-
-                        if (instance.state['Name'] == "running" and status == "Success"):
-                            if instance.platform is None:
-                                print ('Linux: ' + instance.id)
-                                try:
-                                    run_command_sh = ssm.send_command (
-                                        InstanceIds = [instance.id],
-                                        DocumentName = 'AWS-RunShellScript',
-                                        Parameters = {
-                                            'commands':[
-                                                sh_script
-                                            ]
-                                        },
-                                    )
-                                    command_id = run_command_sh['Command']['CommandId']
-                                except Exception as e:
-                                    raise e
-                                # Extract response from each run command invocation
-                                # Sleep for half a second to ensure the response is logged to AWS before fetching
-                                executions.append((instance.id, command_id))
-                                time.sleep(0.5)
-                        else:
-                            print (instance.id + ' -> Stopped or not reporting to SSM')
-
+                        run_command_sh = ssm.send_command (
+                            InstanceIds = [instance.id],
+                            DocumentName = 'AWS-RunShellScript',
+                            Parameters = {
+                                'commands':[
+                                    sh_script
+                                ]
+                            },
+                        )
+                        command_id = run_command_sh['Command']['CommandId']
                     except Exception as e:
-                        print (f"Execution failed for {instance.id} - investigate log:\n{e}\n")
+                        raise e
+                    # Extract response from each run command invocation
+                    # Sleep for half a second to ensure the response is logged to AWS before fetching
+                    executions.append((instance.id, command_id))
+                    time.sleep(0.5)
+            else:
+                print (instance.id + ' -> Stopped or not reporting to SSM')
+
+        except Exception as e:
+            print (f"Execution failed for {instance.id} - investigate log:\n{e}\n")
 
     # Call log_checker() to extract failure logs
     vm_logs = log_checker(executions, ssm)

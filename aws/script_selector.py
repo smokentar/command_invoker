@@ -7,8 +7,8 @@ def script_selector(scripts_path):
     '''
 
     # Create lists of linux / windows scripts
-    linuxList = os.listdir('../scripts/linux')
-    windowsList = os.listdir('../scripts/windows')
+    linuxList = os.listdir(f'{scripts_path}/linux')
+    windowsList = os.listdir(f'{scripts_path}/windows')
 
     # Display linux / windows scripts available
     print ('\n')
