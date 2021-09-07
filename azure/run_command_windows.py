@@ -49,7 +49,7 @@ def invoke_windows(instance_list, ps_script, script):
 
         for virtual_machine in vms:
             if virtual_machine.tags is not None:
-                if "coreops" in virtual_machine.tags and virtual_machine.tags["coreops"].lower() == "support=yes":
+                if "TagKey" in virtual_machine.tags and virtual_machine.tags["TagKey"].lower() == "TagValue":
                     # VM ID format: '/subscriptions/subscription_id/resourceGroups/resource_group/providers/Microsoft.Compute/virtualMachines/vm_name'
                     temp_placeholder = virtual_machine.id.split('/') # Split VM ID string into a list
                     resource_group = temp_placeholder[4] # Access resource_group

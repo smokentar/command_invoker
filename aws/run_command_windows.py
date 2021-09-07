@@ -19,7 +19,7 @@ def invoke_windows(instance_list, ps_script, script, ec2, ssm, instances):
     for instance in instances:
         if instance.tags is not None:
             for tag in instance.tags:
-                if 'CloudreachMockSupport' in tag['Key'] and 'True' in tag['Value']:
+                if 'TagKey' in tag['Key'] and 'TagValue' in tag['Value']:
                     try:
                         try:
                             # Get the instance SSM status
