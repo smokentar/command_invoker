@@ -90,7 +90,7 @@ python azure/offboard.py --help
  <!-- Known issues -->
 ## Known issues
 1. **Azure:** Solution returns both success and failure logs for Azure Linux invocations.
-   - RC: Linux 'STDOUT / STDERR' are returned as a single value by Azure's response
+   - RC: Linux `STDOUT / STDERR` are returned as a single value by Azure's response
 2. **Azure** Command executed on VM however invocation hangs / no logs produced
    - RC: Nodes with tight network security rules can fail to send a response back from RunCommand
      - Connectivity (port 443) to Azure public IP addresses is required
