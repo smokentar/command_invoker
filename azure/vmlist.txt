@@ -1,1 +1,2 @@
-testlin
+VM name
+VM name
