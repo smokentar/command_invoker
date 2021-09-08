@@ -41,8 +41,8 @@ The container however has **vim** installed for editing the files post build, if
 
 An auto-compiled help page is available:
 ```sh
-python aws/offboard.py --help
-python azure/offboard.py --help
+python aws/run.py --help
+python azure/run.py --help
 ```
 
 ### Prerequisites
@@ -72,19 +72,19 @@ python azure/offboard.py --help
 
 1. To invoke against AWS nodes specified in vmlist.txt:
    ```sh
-   python aws/offboard.py --vmlist --profile manual
+   python aws/run.py --vmlist --profile manual
    ```
 2. To invoke against AWS nodes with a tag:
    ```sh
-   python aws/offboard.py --tag --profile manual --tag_key examplekey --tag_value examplevalue
+   python aws/run.py --tag --profile manual --tag_key examplekey --tag_value examplevalue
    ```
 3. To invoke against Azure nodes specified in vmlist.txt:
    ```sh
-   python azure/offboard.py --vmlist
+   python azure/run.py --vmlist
    ```
 4. To invoke against Azure nodes with a tag:
    ```sh
-   python azure/offboard.py --tag --tag_key examplekey --tag_value examplevalue
+   python azure/run.py --tag --tag_key examplekey --tag_value examplevalue
    ```
 
  <!-- Known issues -->
