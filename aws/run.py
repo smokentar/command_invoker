@@ -14,10 +14,11 @@ import jinja2
 @click.command()
 @click.option('--vmlist / --tag', required=True, help='Only instances from vmlist / Tagged instances')
 @click.option('--profile', required=True, help='AWS profile to establish a session with')
+@click.option('--region', required=True, help='AWS region where nodes are located')
 @click.option('--tag_key', required=False, help='Key of tag')
 @click.option('--tag_value', required=False, help="Value of tag")
 
-def main(vmlist, tag_key, tag_value, profile):
+def main(vmlist, tag_key, tag_value, profile, region):
     '''
     1. Establish a session using an AWS profile
     2. Call invoke_linux() / invoke_windows() with the session
@@ -52,8 +53,8 @@ def main(vmlist, tag_key, tag_value, profile):
     else:
         instance_list = []
 
-    ec2 = boto3.resource('ec2', region_name='eu-west-1')
-    ssm = boto3.client('ssm', region_name='eu-west-1')
+    ec2 = boto3.resource('ec2', region_name=region)
+    ssm = boto3.client('ssm', region_name=region)
 
     # Get the objects of instances from vmlist.txt
     if len(instance_list) > 0:

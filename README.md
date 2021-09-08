@@ -72,11 +72,11 @@ python azure/run.py --help
 
 1. To invoke against AWS nodes specified in vmlist.txt:
    ```sh
-   python aws/run.py --vmlist --profile manual
+   python aws/run.py --vmlist --profile exampleprofile --region eu-west-1
    ```
 2. To invoke against AWS nodes with a tag:
    ```sh
-   python aws/run.py --tag --profile manual --tag_key examplekey --tag_value examplevalue
+   python aws/run.py --tag --profile exampleprofile --region eu-west-1 --tag_key examplekey --tag_value examplevalue
    ```
 3. To invoke against Azure nodes specified in vmlist.txt:
    ```sh
