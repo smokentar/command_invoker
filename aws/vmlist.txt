@@ -1,2 +1,2 @@
-instanec-id
+instance-id
 instance-id
